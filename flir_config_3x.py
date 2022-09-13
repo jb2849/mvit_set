@@ -85,10 +85,6 @@ dataloader.test = L(build_detection_test_loader)(
     num_workers=2,
 )
 
-dataloader.evaluator = L(COCOEvaluator)(
-    dataset_name="${..test.dataset.names}",
-)
-
 
 
 ######################
@@ -151,7 +147,7 @@ model = L(GeneralizedRCNN)(
         ),
         box_predictor=L(FastRCNNOutputLayers)(
             input_shape=ShapeSpec(channels=1024),
-            test_score_thresh=0.05,
+            test_score_thresh=0.5,
             box2box_transform=L(Box2BoxTransform)(weights=(10, 10, 5, 5)),
             num_classes="${..num_classes}",
         ),
@@ -198,6 +194,11 @@ lr_multiplier = L(WarmupParamScheduler)(
     warmup_factor=0.001,
 )
 
+
+dataloader.evaluator = L(COCOEvaluator)(
+    dataset_name="${..test.dataset.names}",
+    output_dir= "${..train.output_dir}",
+)
 
 
 optimizer = model_zoo.get_config("common/optim.py").AdamW
