@@ -108,7 +108,7 @@ def main(args):
     cfg = LazyConfig.apply_overrides(cfg, args.opts)
     default_setup(cfg, args)
     for d in ["train", "val"]:
-        DatasetCatalog.register("FLIR_THERMAL_" + d + "_data", lambda d=d: FLIR("/content/drive/MyDrive/SMALL_FLIR_THERMAL/"+d, "data", "coco.json")) #changed "/directry/stuff/" +d +"shit" into this rn
+        DatasetCatalog.register("FLIR_THERMAL_" + d + "_data", lambda d=d: FLIR("/content/drive/MyDrive/FLIR_THERMAL/"+d, "data", "coco.json")) #changed "/directry/stuff/" +d +"shit" into this rn
         MetadataCatalog.get("FLIR_THERMAL_" + d + "_data").set(thing_classes=["person"])
 
     if args.eval_only:
