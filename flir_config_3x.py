@@ -197,7 +197,7 @@ lr_multiplier = L(WarmupParamScheduler)(
 
 dataloader.evaluator = L(COCOEvaluator)(
     dataset_name="${..test.dataset.names}",
-    output_dir= "${..train.output_dir}",
+    output_dir= train.output_dir,
 )
 
 
