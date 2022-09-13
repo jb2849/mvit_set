@@ -184,7 +184,7 @@ train.ddp.fp16_compression = True
 train.init_checkpoint = ""
 train.max_iter = 270000
 train.output_dir = '/content/drive/MyDrive/mvitv2Debug'
-train.checkpointer=dict(period=500, max_to_keep=100),  # options for PeriodicCheckpointer
+train.checkpointer=dict(period=500, max_to_keep=100) # options for PeriodicCheckpointer
 train.eval_period=500
 
 
