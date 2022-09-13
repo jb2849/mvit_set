@@ -28,8 +28,9 @@ from detectron2.evaluation import inference_on_dataset, print_csv_format
 from detectron2.utils import comm
 
 logger = logging.getLogger("detectron2")
-
-
+from detectron2.data import MetadataCatalog, DatasetCatalog
+    
+from .get_flir import FLIR
 def do_test(cfg, model):
     if "evaluator" in cfg.dataloader:
         ret = inference_on_dataset(
@@ -106,6 +107,9 @@ def main(args):
     cfg = LazyConfig.load(args.config_file)
     cfg = LazyConfig.apply_overrides(cfg, args.opts)
     default_setup(cfg, args)
+    for d in ["train", "val"]:
+        DatasetCatalog.register("FLIR_THERMAL_" + d + "data", lambda d=d: FLIR("/content/drive/MyDrive/SMALL_FLIR_THERMAL/"+d, "data", "coco.json")) #changed "/directry/stuff/" +d +"shit" into this rn
+        MetadataCatalog.get("FLIR_THERMAL" + d + "_data").set(thing_classes=["person"])
 
     if args.eval_only:
         model = instantiate(cfg.model)
@@ -118,12 +122,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-    from detectron2.data import MetadataCatalog, DatasetCatalog
-    
-    from get_flir import FLIR
-    for d in ["train", "val"]:
-        DatasetCatalog.register("FLIR_THERMAL_" + d + "data", lambda d=d: FLIR("/content/drive/MyDrive/SMALL_FLIR_THERMAL/"+d, "data", "coco.json")) #changed "/directry/stuff/" +d +"shit" into this rn
-        MetadataCatalog.get("FLIR_THERMAL" + d + "_data").set(thing_classes=["person"])
     args = default_argument_parser().parse_args()
     launch(
         main,
