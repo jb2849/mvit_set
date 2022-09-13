@@ -25,8 +25,6 @@ from detectron2.modeling.roi_heads import (
     FastRCNNConvFCHead,
 )
 
-from get_flir import FLIR
-
 
 from omegaconf import OmegaConf
 
