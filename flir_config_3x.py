@@ -82,7 +82,7 @@ dataloader.test = L(build_detection_test_loader)(
         ],
         image_format="${...train.mapper.image_format}",
     ),
-    num_workers=4,
+    num_workers=2,
 )
 
 dataloader.evaluator = L(COCOEvaluator)(
@@ -132,7 +132,7 @@ model = L(GeneralizedRCNN)(
     ),
     roi_heads=L(StandardROIHeads)(
         num_classes=1,
-        batch_size_per_image=512,
+        batch_size_per_image=256,
         positive_fraction=0.25,
         proposal_matcher=L(Matcher)(
             thresholds=[0.5], labels=[0, 1], allow_low_quality_matches=False
