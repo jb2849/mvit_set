@@ -120,7 +120,7 @@ model = L(GeneralizedRCNN)(
             thresholds=[0.3, 0.7], labels=[0, -1, 1], allow_low_quality_matches=True
         ),
         box2box_transform=L(Box2BoxTransform)(weights=[1.0, 1.0, 1.0, 1.0]),
-        batch_size_per_image=512,
+        batch_size_per_image=256,
         positive_fraction=0.5,
         pre_nms_topk=(2000, 1000),
         post_nms_topk=(1000, 1000),
@@ -128,7 +128,7 @@ model = L(GeneralizedRCNN)(
     ),
     roi_heads=L(StandardROIHeads)(
         num_classes=1,
-        batch_size_per_image=256,
+        batch_size_per_image=512,
         positive_fraction=0.25,
         proposal_matcher=L(Matcher)(
             thresholds=[0.5], labels=[0, 1], allow_low_quality_matches=False
@@ -184,6 +184,9 @@ train.ddp.fp16_compression = True
 train.init_checkpoint = ""
 train.max_iter = 270000
 train.output_dir = '/content/drive/MyDrive/mvitv2Debug'
+train.checkpointer=dict(period=500, max_to_keep=100),  # options for PeriodicCheckpointer
+train.eval_period=500,
+
 
 lr_multiplier = L(WarmupParamScheduler)(
     scheduler=L(MultiStepParamScheduler)(
