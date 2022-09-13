@@ -30,7 +30,7 @@ from detectron2.utils import comm
 logger = logging.getLogger("detectron2")
 from detectron2.data import MetadataCatalog, DatasetCatalog
     
-from .get_flir import FLIR
+from get_flir import FLIR
 def do_test(cfg, model):
     if "evaluator" in cfg.dataloader:
         ret = inference_on_dataset(
